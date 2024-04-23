@@ -69,6 +69,39 @@
             </div>
         </div>
     </div>
+    <!-- update Modal -->
+    <div class="modal fade" id="upModal" tabindex="-1" aria-labelledby="upModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="addModalLabel">Alterar Carro</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">ID</label>
+                        <input type="text" class="form-control" id="muId" name="id">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Marca" class="form-label">Marca</label>
+                        <input type="text" class="form-control" id="muMarca" name="Marca">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Detalhes" class="form-label">Detalhes</label>
+                        <input type="text" class="form-control" id="muDetalhes" name="Detalhes">
+                    </div>
+                    <div class="mb-3">
+                        <label for="Foto" class="form-label">Link da Foto</label>
+                        <input type="text" class="form-control" id="muFoto" name="Foto">
+                    </div>
+                    <button type="button" class="btn btn-primary" onclick="atualizaCarro()"><i class="fa-solid fa-floppy-disk"></i> Enviar</button>
+                    <button type="reset" class="btn btn-success" ><i class="fa-solid fa-shower"></i> Limpar</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" ><i class="fa-solid fa-door-closed"></i> Fechar</button>
+                </div>
+            </div>
+        </div>
+    </div>                    
+
     <script>
         const listarCarros = async () => {
             let strHtml = ``
@@ -80,7 +113,7 @@
                     <tr>
                         <td>${artigo.id}</td>
                         <td>${artigo.Marca}</td>
-                        <td>${artigo.Detalhes}</td>
+                        <td>${artigo.Detalhe}</td>
                         <td>${artigo.Foto}</td>
                         <td>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#upModal" onclick="preparaEditCarro(${artigo.id})"><i class="fa fa-pencil"></i> Editar</button>
@@ -129,6 +162,74 @@
        
         }
 
+        const apagaCarro = async (id) => {
+            fetch("http://localhost:4242/api/carros/delete/" + id, {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+            })
+            .then((response) => {
+                // Verifica se a resposta foi bem sucedida
+                if (!response.ok) {
+                throw new Error("Erro ao obter os dados");
+                }
+                return response;
+            })
+            .then((data) => {
+                // Faz algo com os dados
+                //console.log(data);
+                resposta = "O carro foi apagado com sucesso!";
+                alert(resposta);
+                listarCarros();
+            })
+            .catch((error) => {
+                // Captura qualquer erro de rede ou tratamento de erro
+                console.error("Houve um erro:", error);
+            });
+        };
+
+        const preparaEditCarro = async (id) => {
+            //alert("aaaa")
+            const response = await fetch('http://localhost:4242/api/carros/'+id)
+            const artigo = await response.json()
+           
+            document.getElementById("muId").value = artigo[0].id;
+            document.getElementById("muMarca").value = artigo[0].Marca;
+            document.getElementById("muDetalhes").value = artigo[0].Detalhes;
+            document.getElementById("muFoto").value = artigo[0].Foto;
+        }
+
+        const atualizaCarro = async () => {
+            var dados = {
+                id: document.getElementById("muId").value,
+                Marca: document.getElementById("muMarca").value,
+                Detalhes: document.getElementById("muDetalhes").value,
+                Foto: document.getElementById("muFoto").value,
+            };
+            fetch("http://localhost:4242/api/carros/update", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados),
+            })
+            .then((response) => {
+                // Verifica se a resposta foi bem sucedida
+                if (!response.ok) {
+                throw new Error("Erro ao obter os dados");
+                }
+                // Converte a resposta para JSON
+                return response.json();
+            })
+            .then((data) => {
+                // Faz algo com os dados
+                //console.log(data);
+                resposta = "O carro com a marca: " + dados.Marca + " foi atualizado com sucesso!";
+                alert(resposta);
+                listarCarros();
+            })
+            .catch((error) => {
+                // Captura qualquer erro de rede ou tratamento de erro
+                console.error("Houve um erro:", error);
+            });
+        };
 
     </script>
  <!-- Add Bootstrap JS -->

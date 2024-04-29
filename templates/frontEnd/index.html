@@ -43,7 +43,7 @@
             
             const atualizarCarros = async () => {
                 let strHtml = ``
-                const response = await fetch('http://localhost:4242/api/carros/')
+                const response = await fetch('http://localhost:4242/api/local/carros/')
                 const lv = await response.json()
                 for (const artigo of lv) {
                     strHtml += `

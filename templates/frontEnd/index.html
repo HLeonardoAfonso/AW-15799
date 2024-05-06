@@ -35,15 +35,15 @@
         </div>
         <script>
             function carregaModal(titulo, detalhe, elemento){
-              document.getElementById("mtitulo").innerHTML=titulo;
-              document.getElementById("mdetalhe").innerHTML=detalhe;
-              document.getElementById("mImagem").src =elemento.parentNode.parentNode.firstElementChild.getAttribute("src")
-              console.log(elemento.parentNode.parentNode.firstElementChild.getAttribute("src"))
+                document.getElementById("mtitulo").innerHTML=titulo;
+                document.getElementById("mdetalhe").innerHTML=detalhe;
+                document.getElementById("mImagem").src =elemento.parentNode.parentNode.firstElementChild.getAttribute("src")
+                console.log(elemento.parentNode.parentNode.firstElementChild.getAttribute("src"))
             }
             
             const atualizarCarros = async () => {
                 let strHtml = ``
-                const response = await fetch('http://localhost:4242/api/local/carros/')
+                const response = await fetch('http://localhost:4242/api/pgs/carros/')
                 const lv = await response.json()
                 for (const artigo of lv) {
                     strHtml += `

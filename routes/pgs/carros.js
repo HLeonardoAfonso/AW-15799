@@ -5,11 +5,11 @@ const controller = require('C:/Users/LEONARDO/Documents/GitHub/AW-15799/controll
 carrosRouter.get('/testeConn', controller.testConnection);
 
 //CRUD para carros
-carrosRouter.get('/, controller.getAll'); //le todos
+carrosRouter.get('/', controller.getAll); //le todos
 carrosRouter.get('/:id', controller.getById); //le um carro indicado pelo id
-//carrosRouter.post('/create', controller.create); //criar um carro
-//carrosRouter.put('/update', controller.update); //atualizar um carro
-//carrosRouter.delete('/delete/:id', controller.delete); //apagar um carro
+carrosRouter.post('/create', controller.create); //criar um carro
+carrosRouter.put('/update', controller.update); //atualizar um carro
+carrosRouter.delete('/delete/:id', controller.delete); //apagar um carro
 
 
 

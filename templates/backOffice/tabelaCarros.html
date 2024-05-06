@@ -27,7 +27,7 @@
                 <tr>
                     <td>ID</td>
                     <td>Marca</td>
-                    <td>Detalhe</td>
+                    <td>Detalhes</td>
                     <td>Link da Foto</td>
                     <td>
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#upModal"><i class="fa fa-pencil"></i> Editar</button>
@@ -48,7 +48,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="id" class="form-label">ID</label>
-                        <input type="text" class="form-control" id="mId" name="id" />
+                        <input type="text" class="form-control" id="mId" name="id" disabled/>
                     </div>
                     <div class="mb-3">
                         <label for="Marca" class="form-label">Marca</label>
@@ -56,13 +56,13 @@
                     </div>
                     <div class="mb-3">
                         <label for="Detalhes" class="form-label">Detalhes</label>
-                        <input type="text" class="form-control" id="mDetalhes" name="Detalhe s" />
+                        <input type="text" class="form-control" id="mDetalhes" name="Detalhes" />
                     </div>
                     <div class="mb-3">
                         <label for="Foto" class="form-label">Link da Foto</label>
                         <input type="text" class="form-control" id="mFoto" name="Foto" />
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="novoCarro()"><i class="fa-solid fa-floppy-disk"></i> Enviar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="novoCarro()"><i class="fa-solid fa-floppy-disk"></i> Enviar</button>
                     <button type="reset" class="btn btn-success"><i class="fa-solid fa-shower"></i> Limpar</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-door-closed"></i> Fechar</button>
                 </div>
@@ -94,7 +94,7 @@
                         <label for="Foto" class="form-label">Link da Foto</label>
                         <input type="text" class="form-control" id="muFoto" name="Foto">
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="atualizaCarro()"><i class="fa-solid fa-floppy-disk"></i> Enviar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="atualizaCarro()"><i class="fa-solid fa-floppy-disk"></i> Enviar</button>
                     <button type="reset" class="btn btn-success" ><i class="fa-solid fa-shower"></i> Limpar</button>
                     <button type="button" class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" ><i class="fa-solid fa-door-closed"></i> Fechar</button>
                 </div>
@@ -106,14 +106,14 @@
         const listarCarros = async () => {
             let strHtml = ``
             //alert("aaaa")
-            const response = await fetch('http://localhost:4242/api/carros')
+            const response = await fetch('http://localhost:4242/api/pgs/carros')
             const lv = await response.json()
             for (const artigo of lv) {
                 strHtml += `
                     <tr>
                         <td>${artigo.id}</td>
                         <td>${artigo.Marca}</td>
-                        <td>${artigo.Detalhe}</td>
+                        <td>${artigo.Detalhes}</td>
                         <td>${artigo.Foto}</td>
                         <td>
                             <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#upModal" onclick="preparaEditCarro(${artigo.id})"><i class="fa fa-pencil"></i> Editar</button>
@@ -134,7 +134,7 @@
                 Foto: document.getElementById("mFoto").value,
             };
             //alert(dados.Marca) //alert(dados.Detalhes) //alert(dados.Foto)
-            fetch('http://localhost:4242/api/carros/create', {
+            fetch('http://localhost:4242/api/pgs/carros/create', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(dados)
@@ -163,7 +163,7 @@
         }
 
         const apagaCarro = async (id) => {
-            fetch("http://localhost:4242/api/carros/delete/" + id, {
+            fetch("http://localhost:4242/api/pgs/carros/delete/" + id, {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
             })
@@ -189,13 +189,13 @@
 
         const preparaEditCarro = async (id) => {
             //alert("aaaa")
-            const response = await fetch('http://localhost:4242/api/carros/'+id)
+            const response = await fetch('http://localhost:4242/api/pgs/carros/'+id)
             const artigo = await response.json()
            
-            document.getElementById("muId").value = artigo[0].id;
-            document.getElementById("muMarca").value = artigo[0].Marca;
-            document.getElementById("muDetalhes").value = artigo[0].Detalhes;
-            document.getElementById("muFoto").value = artigo[0].Foto;
+            document.getElementById("muId").value = artigo.id;
+            document.getElementById("muMarca").value = artigo.Marca;
+            document.getElementById("muDetalhes").value = artigo.Detalhes;
+            document.getElementById("muFoto").value = artigo.Foto;
         }
 
         const atualizaCarro = async () => {
@@ -205,7 +205,7 @@
                 Detalhes: document.getElementById("muDetalhes").value,
                 Foto: document.getElementById("muFoto").value,
             };
-            fetch("http://localhost:4242/api/carros/update", {
+            fetch("http://localhost:4242/api/pgs/carros/update", {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dados),

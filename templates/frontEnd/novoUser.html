@@ -83,6 +83,7 @@
             .then((data) => {
                 // Faz algo com os dados
                 alert("O " + dados.name + " foi adicionado com sucesso!");
+                window.location.href = "http://localhost:4242/signin";
             })
             .catch((error) => {
                 // Captura qualquer erro de rede ou tratamento de erro

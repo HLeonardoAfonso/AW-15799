@@ -13,6 +13,8 @@ const app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use(express.static('templates/frontEnd'));
+
 app.use('/', publicoRouter);
 app.use('/bo/', privadoRouter);
 app.use('/api/local/', routerLocal);

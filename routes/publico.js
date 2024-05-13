@@ -12,5 +12,15 @@ publicoRouter.get('/', (req, res) => {
       res.sendFile(diretorioPai + '/templates/frontEnd/index.html');
 });
 
+publicoRouter.get('/signup', (req, res) => {
+  // Envie o arquivo HTML como resposta para a solicitação HTTP  //res.sendFile('/sites/ap2/webServicePSG/templates/frontEnd/index.html');
+    res.sendFile(diretorioPai + '/templates/frontEnd/novoUser.html');
+});
+
+publicoRouter.get('/signin', (req, res) => {
+  // Envie o arquivo HTML como resposta para a solicitação HTTP  //res.sendFile('/sites/ap2/webServicePSG/templates/frontEnd/index.html');
+    res.sendFile(diretorioPai + '/templates/frontEnd/login.html');
+});
+
 
 module.exports = publicoRouter;
